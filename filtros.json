@@ -1,0 +1,34 @@
+[
+    {
+        "containsStr": ["Silicon Valley"],
+        "ignoreStr": ["joe"]
+    },
+    {
+        "containsStr": ["Alli Abajo"],
+        "ignoreStr": ["joe"]
+    },
+    {
+        "containsStr": ["Padre de Familia"],
+        "ignoreStr": ["joe"]
+    },
+    {
+        "containsStr": ["Juego de Tronos"],
+        "ignoreStr": ["joe"]
+    },
+      {
+        "containsStr": ["Los simpsons"],
+        "ignoreStr": ["joe"]
+    },
+    {
+        "containsStr": ["House of Cards"],
+        "ignoreStr": ["joe"]
+    },
+      {
+        "containsStr": ["Modern family"],
+        "ignoreStr": ["joe"]
+    },
+     {
+        "containsStr": ["Grimm"],
+        "ignoreStr": ["joe"]
+    }
+]

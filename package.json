@@ -1,0 +1,16 @@
+{
+    "name": "node-todo",
+    "version": "0.0.0",
+    "description": "Simple todo application.",
+    "main": "mi_app.js",
+    "author": "Edu Alvir",
+    "dependencies": {
+        "express": "~4.7.2",
+        "body-parser": "~1.5.2",
+        "xml2js": "~0.4.8",
+        "request": "~2.55.0",
+        "fs": "~0.0.2",
+        "unirest": "~0.4.0",
+        "ejs":"2.3.1"
+    }
+}
