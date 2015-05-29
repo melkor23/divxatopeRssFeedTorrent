@@ -166,7 +166,7 @@ function sacaItems(items) {
                         try {
                             var posIni = response.body.indexOf("http://www.divxatope.com/descarga-torrent/"),
                                 posFin = response.body.indexOf('"', response.body.indexOf("http://www.divxatope.com/descarga-torrent/")),
-                                link = response.body.substr(posIni, posFin - posIni);
+                                link = 'http://tumejorserie.com/redirect/download.php?url='+response.body.substr(posIni, posFin - posIni);
 
 
                             var aux = items[a].description[0].substring(items[a].description[0].indexOf('src="'));
