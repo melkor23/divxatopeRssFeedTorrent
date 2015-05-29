@@ -6,8 +6,8 @@
             <div class="">
                 <div class="page-header">
                 </div>
-                <div  ng-controller="PersonController as person">
-                    <div class="row">
+                <div  class="jumbotron" ng-controller="PersonController as person">
+                    <div class=" containerrow">
                         <div class="col-md-2" ng-repeat="item in person.list.items | orderBy:'date':true">
                             <div class="shadow" style="w">
                             <img class="" src="{{item.description}}" title="{{item.title}}"></img>

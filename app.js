@@ -1,3 +1,4 @@
+/*required*/
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -7,6 +8,7 @@ var fs = require("fs");
 var rss = require("rss");
 var unirest = require('unirest');
 var sequence = require('sequence');
+
 
 var app = express();
 var port = 8000;
@@ -52,6 +54,7 @@ var feedAct = new rss({
 });
 
 var urlFeed = 'http://www.divxatope.com/feeds.xml';
+
 var headers = {
     'User-Agent': 'Super Agent/0.0.1',
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -79,10 +82,6 @@ function itemSeleccionado(str, filtros) {
         boolIgnore = true;
 
         for (var j = 0; j < filtros[i].containsStr.length; j++) {
-            if (filtros[i].containsStr[j].indexOf('Mozart') >= 0) {
-                var nn = 0;
-            }
-
             //console.log(str[0].indexOf(filtros[i].containsStr[j]) === -1);
             //console.log(" str:" + str + " filter:" + filtros[i].containsStr[j]);
             if (str[0].indexOf(filtros[i].containsStr[j]) >= 0) {
@@ -105,11 +104,8 @@ function itemSeleccionado(str, filtros) {
 
 
 function recargaFeed() {
-    //console.log('-----------------reset---------------------');
-    var iniTime=new Date();
-
-
-
+    console.log('-----------------RECARGA '+new Date()+'---------------------');
+    var iniTime = new Date();
 
     feedAct = new rss({
         title: 'Feed RSS',
@@ -128,24 +124,20 @@ function recargaFeed() {
         custom_namespaces: {}
     });
 
-    console.log('REset--->' + feedAct.item.length);
-
-    //feedAct.item=[];
     unirest.get('http://www.divxatope.com/feeds.xml').end(function (response) {
         if (response.statusCode === 200) {
             var parser = new xml2jsParser.Parser();
             var xmlObject = null;
             parser.parseString(response.body, function (err, result) {
                 xmlObject = result;
-                //console.log("sacaitem-->");
                 sacaItems(result.rss.channel[0].item);
             });
         }
     });
 
-    var finTime=new Date();
+    var finTime = new Date();
     var diff = finTime.getTime() - iniTime.getTime();
-    console.log('Time elapsed:'+diff);
+    console.log('Time elapsed:' + diff);
 }
 
 function sacaItems(items) {
@@ -175,8 +167,6 @@ function sacaItems(items) {
                                 posFin = response.body.indexOf('"', response.body.indexOf("http://www.divxatope.com/descarga-torrent/")),
                                 link = response.body.substr(posIni, posFin - posIni);
 
-                            //console.log(items[i].description[0]);
-                            //console.log(items[a].description[0].indexOf('src="'));
 
                             var aux = items[a].description[0].substring(items[a].description[0].indexOf('src="'));
                             //console.log('1substring->' + aux);
@@ -191,12 +181,12 @@ function sacaItems(items) {
                                 guid: items[a].title[0].match(/\[Cap*\.[0-9]*\]/)[0], // optional - defaults to url
                                 //categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
                                 author: 'Eduardo Alvir', // optional - defaults to feed author property
-                                date: new Date(items[a].pubDate[0])//'May 25, 2012', // any format that js Date can parse.
+                                date: new Date(items[a].pubDate[0]) //'May 25, 2012', // any format that js Date can parse.
                                     //lat: 33.417974, //optional latitude field for GeoRSS
                                     //long: -111.933231, //optional longitude field for GeoRSS,
                             });
                         } catch (err) {
-                            console.log("No se ha podido leer el cuerpo de la pagina"+err.message);
+                            console.log("No se ha podido leer el cuerpo de la pagina" + err.message);
                         }
                         //console.log('link--->' + link);
                         //console.log('Contador: ' + cont);

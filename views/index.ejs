@@ -1,47 +1,42 @@
 <!DOCTYPE html>
-<html ng-app>
+<html lang="en" ng-app="aryalist">>
 <% include header %>
-<body>
-	<% include navbar %>
+    <body>
+        <% include navbar %>
+            <div class="">
+                <div class="page-header">
+                </div>
+                <div  class="jumbotron" ng-controller="PersonController as person">
+                    <div class=" containerrow">
+                        <div class="col-md-2" ng-repeat="item in person.list.items | orderBy:'date':true">
+                            <div class="shadow" style="w">
+                            <img class="" src="{{item.description}}" title="{{item.title}}"></img>
+                            <p class="text-center" id="Capitulo"> {{item.guid}}</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
 
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="jumbotron">
-		<div class="container">
-			<h1>Todo</h1>
-			<div ng-controller="TodoCtrl">
-				<span>{{remaining()}} of {{todos.length}} remaining</span> [ <a
-					href="" ng-click="archive()">archive</a> ]
-				<ul class="unstyled">
-					<li ng-repeat="todo in todos"><input type="checkbox"
-						ng-model="todo.done"> <span class="done-{{todo.done}}">{{todo.text}}</span>
-					</li>
-				</ul>
-				<form ng-submit="addTodo()">
-					<div class="col-lg-6">
-						<div class="input-group input-group-lg">
-							<input class="form-control" type="text" ng-model="todoText"
-								size="30" placeholder="add new todo here"> <span
-								class="input-group-btn">
-								<button class="btn btn-primary btn-lg" type="submit">Add</button>
-							</span>
-						</div>
-					</div>
-				</form>
+                    </div>
+                </div>
 
-			</div>
-		</div>
-	</div>
+                <hr>
 
-	<div class="container">
-		<hr>
+                <% include footer %>
+            </div>
+            <!-- /container -->
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#about').addClass("active");
+                });
+            </script>
+            <!-- Bootstrap core JavaScript
+    ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://code.jquery.com/jquery.js"></script>
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    </body>
 
-		<% include footer %>
-	</div>
-	<!-- /container -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#home').addClass("active");
-		});
-	</script>
-</body>
 </html>
