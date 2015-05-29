@@ -142,7 +142,7 @@ function recargaFeed() {
 }
 
 function sacaItems(items) {
-    var filtros = JSON.parse(fs.readFileSync('../filtros.json', 'utf8')),
+    var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8')),
         i,
         cont = 0;
 
