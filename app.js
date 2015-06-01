@@ -30,8 +30,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-var about = require('./routes/about');
-app.get('/about', about.about);
+var rssfeed = require('./routes/feed');
+app.get('/feed', rssfeed.rssfeed);
+
+;
 
 
 /*
@@ -55,6 +57,8 @@ var feedAct = new rss({
 });
 
 var urlFeed = 'http://www.divxatope.com/feeds.xml';
+var urlDownloadIni = 'http://www.divxatope.com/descarga-torrent/';
+var urlDownloadFin = 'http://www.divxatope.com/torrent/';
 
 var headers = {
     'User-Agent': 'Super Agent/0.0.1',
@@ -85,12 +89,14 @@ function itemSeleccionado(str, filtros) {
         for (var j = 0; j < filtros[i].containsStr.length; j++) {
             //console.log(str[0].indexOf(filtros[i].containsStr[j]) === -1);
             //console.log(" str:" + str + " filter:" + filtros[i].containsStr[j]);
-            if (str[0].indexOf(filtros[i].containsStr[j]) >= 0) {
+            if (str[0].indexOf(filtros[i].containsStr[j]) >= 0 &&
+                    (str[0].indexOf(filtros[i].quality) >= 0 || filtros[i].quality == '' || filtros[i].quality == null)) {
                 boolContains ? true : false;
             } else {
                 boolContains = false;
             }
         }
+
         //si lo hemos encontrado
         if (boolContains) {
             return true;
@@ -104,8 +110,9 @@ function itemSeleccionado(str, filtros) {
 
 
 
+
 function recargaFeed() {
-    console.log('-----------------RECARGA '+new Date()+'---------------------');
+    console.log('-----------------RECARGA ' + new Date() + '---------------------');
     var iniTime = new Date();
 
     feedAct = new rss({
@@ -164,9 +171,9 @@ function sacaItems(items) {
                     //console.log('B->' + items[a].link[0] + 'a->' + a);
                     if (response.statusCode === 200) {
                         try {
-                            var posIni = response.body.indexOf("http://www.divxatope.com/descarga-torrent/"),
-                                posFin = response.body.indexOf('"', response.body.indexOf("http://www.divxatope.com/descarga-torrent/")),
-                                link = 'http://tumejorserie.com/redirect/download.php?url='+response.body.substr(posIni, posFin - posIni);
+                            var posIni = response.body.indexOf(urlDownloadIni),
+                                posFin = response.body.indexOf('"', response.body.indexOf(urlDownloadIni)),
+                                link = response.body.substr(posIni, posFin - posIni).replace(urlDownloadIni, urlDownloadFin);
 
 
                             var aux = items[a].description[0].substring(items[a].description[0].indexOf('src="'));
@@ -199,12 +206,7 @@ function sacaItems(items) {
             });
         }
     }
-
-
-
 }
-
-
 
 
 
@@ -260,15 +262,14 @@ app.get('*', function (req, res) {
 
 
 /*
-
 app.listen(port);
 console.log("SERVER UP on port:" + port);
 recargaFeed();
-*/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+*/ // catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -276,23 +277,23 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 recargaFeed();

@@ -1,44 +1,66 @@
 [
     {
         "containsStr": ["Silicon Valley"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": "720p"
+
     },
     {
         "containsStr": ["Alli Abajo"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
     },
     {
         "containsStr": ["Padre de Familia"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
     },
     {
         "containsStr": ["Juego de Tronos"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
     },
-      {
+    {
         "containsStr": ["Los simpsons"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
     },
     {
         "containsStr": ["House of Cards"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": "720p"
     },
-      {
+    {
         "containsStr": ["Modern family"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
     },
-     {
+    {
         "containsStr": ["Marvels Agents of S.H.I.E.L.D"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": "720p"
     },
-     {
+    {
         "containsStr": ["Mom"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
     },
     {
         "containsStr": ["Bones"],
-        "ignoreStr": []
+        "ignoreStr": [],
+        "quality": ""
+    },
+    {
+        "containsStr": ["Mad Men"],
+        "ignoreStr": [],
+        "quality": ""
+    },
+    {
+        "containsStr": ["Community"],
+        "ignoreStr": [],
+        "quality": "720p"
     }
+
 
 
 

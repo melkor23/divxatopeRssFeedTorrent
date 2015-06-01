@@ -1,19 +1,25 @@
 (function () {
-    var app = angular.module('aryalist', []);
+    var app = angular.module('showItemsapp', []);
 
 
-    app.controller('PersonController', ['$http', function ($http) {
-        var people = this;
+    app.controller('ItemController', ['$http', function ($http) {
+        var showItem = this;
 
-        people.list = [];
+        showItem.list = [];
 
 
         $http.get('./rss2').success(function (data) {
-            people.list = data;
+            showItem.list = data;
         }).
         error(function (data, status, headers, config) {
-            alert("No e han podido recuperar los datos");
+            alert("No se han podido recuperar los datos");
         });
+
+         showItem.getLink = function (str) {
+
+         };
+
+
 
 
         }]);
