@@ -8,6 +8,19 @@ var fs = require("fs");
 var rss = require("rss");
 var unirest = require('unirest');
 var sequence = require('sequence');
+var http = require('http');
+var md5 = require('MD5');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+
+//users
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+
+
+//fin users
+
 
 
 var app = express();
@@ -23,7 +36,13 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('css', __dirname + '/public/stylesheets');
 app.use(express.static(path.join(__dirname, 'public')));
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
+passport.deserializeUser(function(id, done) {
+    done(err, user);
+});
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -33,8 +52,121 @@ app.use(bodyParser.urlencoded({
 var rssfeed = require('./routes/feed');
 app.get('/feed', rssfeed.rssfeed);
 
-;
+//users
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
+
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+
+/*fin users*/
+
+//login
+app.use(passport.initialize());
+app.use(passport.session());
+var user = {
+    username: '',
+
+    password: ''
+}
+
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        console.log('user:' + username);
+        console.log('pass:' + password);
+        console.log(md5(password));
+
+        process.nextTick(function () {
+
+            if (username == 'melkor23' && md5(password) == '0716d19ed8dc38c84b597d87ff071dfa') {
+                user.username = username;
+                user.password = password;
+                console.log('user:' + user.username + ' password:' + user.password);
+                return done(user, true);
+            } else {
+                return done(null, false);
+            }
+        });
+    }
+));
+
+
+
+app.get('/auth', function (req, res, next) {
+    //res.sendfile('views/login.html');
+    res.render('login', {
+        title: 'Melkor Rss Feed'
+    });
+});
+
+
+app.get('/loginFailure', function (req, res, next) {
+    res.send('Failure to authenticate');
+});
+
+app.get('/loginSuccess', function (req, res, next) {
+    res.send('Successfully authenticated');
+});
+
+app.get('/logged', function (req, res, next) {
+    res.send(isLoggedIn(req, res, next));
+
+});
+
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    console.log('autheticate?'+req.user.authenticated);
+    if (req.user.authenticated)
+        return true;
+    else
+        return false;
+}
+
+/*
+app.post('/login',
+    passport.authenticate('local', function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    console.log('consolelog!');
+     res.render('feed', { title: 'Melkor Rss Feed' });
+  }));
+*/
+app.post('/login', function (req, res, next) {
+    passport.authenticate('local', function (user, err, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+
+            return res.redirect('/login');
+        }
+
+        return res.redirect('/feed');
+
+    })(req, res, next);
+});
 
 /*
     variables
@@ -73,6 +205,8 @@ var options = {
     headers: headers
 };
 
+
+
 function itemSeleccionado(str, filtros) {
     var ff,
         strCont,
@@ -90,7 +224,7 @@ function itemSeleccionado(str, filtros) {
             //console.log(str[0].indexOf(filtros[i].containsStr[j]) === -1);
             //console.log(" str:" + str + " filter:" + filtros[i].containsStr[j]);
             if (str[0].indexOf(filtros[i].containsStr[j]) >= 0 &&
-                    (str[0].indexOf(filtros[i].quality) >= 0 || filtros[i].quality == '' || filtros[i].quality == null)) {
+                (str[0].indexOf(filtros[i].quality) >= 0 || filtros[i].quality == '' || filtros[i].quality == null)) {
                 boolContains ? true : false;
             } else {
                 boolContains = false;

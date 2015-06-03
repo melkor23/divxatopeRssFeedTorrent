@@ -59,9 +59,10 @@
         "containsStr": ["Community"],
         "ignoreStr": [],
         "quality": "720p"
+    },
+     {
+        "containsStr": ["Anatomia De Grey"],
+        "ignoreStr": [],
+        "quality": ""
     }
-
-
-
-
 ]
