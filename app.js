@@ -12,7 +12,7 @@ var http = require('http');
 var md5 = require('MD5');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var cors = require('cors');
 
 //users
 var logger = require('morgan');
@@ -27,20 +27,18 @@ var app = express();
 var port = 8000;
 
 
-//recarga cada 10min
-setInterval(recargaFeed, 60000);
-
-
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('css', __dirname + '/public/stylesheets');
 app.use(express.static(path.join(__dirname, 'public')));
 passport.serializeUser(function(user, done) {
+    console.log('Serialice');
   done(null, user);
 });
 
 passport.deserializeUser(function(id, done) {
+    console.log('Deserialice');
     done(err, user);
 });
 
@@ -51,6 +49,9 @@ app.use(bodyParser.urlencoded({
 
 var rssfeed = require('./routes/feed');
 app.get('/feed', rssfeed.rssfeed);
+
+var rssfeed = require('./routes/feed');
+app.get('/feedAll', rssfeed.rssfeedAll);
 
 //users
 var routes = require('./routes/index');
@@ -70,6 +71,8 @@ if (app.get('env') === 'development') {
     });
 }
 
+
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
@@ -81,10 +84,12 @@ app.use(function (err, req, res, next) {
 });
 
 /*fin users*/
+app.use(cors());
+
 
 //login
-app.use(passport.initialize());
-app.use(passport.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
 var user = {
     username: '',
 
@@ -244,8 +249,9 @@ function itemSeleccionado(str, filtros) {
 
 
 
-
+var Allitems='';
 function recargaFeed() {
+
     console.log('-----------------RECARGA ' + new Date() + '---------------------');
     var iniTime = new Date();
 
@@ -272,6 +278,8 @@ function recargaFeed() {
             var xmlObject = null;
             parser.parseString(response.body, function (err, result) {
                 xmlObject = result;
+                //global variable
+                Allitems=result;
                 sacaItems(result.rss.channel[0].item);
             });
         }
@@ -281,6 +289,9 @@ function recargaFeed() {
     var diff = finTime.getTime() - iniTime.getTime();
     console.log('Time elapsed:' + diff);
 }
+
+
+
 
 function sacaItems(items) {
     var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8')),
@@ -378,6 +389,31 @@ app.get('/rss2/', function (req, res) {
     res.send(feedAct);
 });
 
+
+app.get('/rssAll/', function (req, res) {
+    //console.log('cantidad items' + feedAct.item.length);
+
+var auxArray=[];
+ unirest.get('http://www.divxatope.com/feeds.xml').end(function (response) {
+                    if (response.statusCode === 200) {
+//                        console.log(response.body);
+                        var parser = new xml2jsParser.Parser();
+                        var xmlObject = null;
+                        parser.parseString(response.body, function (err, result) {
+                            //console.log(result.rss.channel[0].item);
+                            auxArray=result.rss.channel[0].item;
+                            res.send(result.rss.channel[0].item)
+                        });
+
+                    }
+                });
+});
+/*
+app.get('/feedall/', function (req, res) {
+    //console.log('cantidad items' + feedAct.item.length);
+    res.send(Allitems.rss.channel[0].item);
+});
+*/
 //quitamos acentos
 function removeAccents(str) {
     return str
