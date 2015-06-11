@@ -11,15 +11,11 @@ var sequence = require('sequence');
 var http = require('http');
 var md5 = require('MD5');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var cors = require('cors');
+
 
 //users
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-
-
-//fin users
+var session = require('express-session');
 
 
 
@@ -32,15 +28,15 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('css', __dirname + '/public/stylesheets');
 app.use(express.static(path.join(__dirname, 'public')));
-passport.serializeUser(function(user, done) {
-    console.log('Serialice');
-  done(null, user);
-});
 
-passport.deserializeUser(function(id, done) {
-    console.log('Deserialice');
-    done(err, user);
-});
+
+app.use(cookieParser('Quiz 2015'));
+app.use(session({
+    secret: 'Quiz 2015',
+    resave: true,
+    saveUninitialized: true
+}));
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -55,7 +51,7 @@ app.get('/feedAll', rssfeed.rssfeedAll);
 
 //users
 var routes = require('./routes/index');
-var users = require('./routes/users');
+//var users = require('./routes/users');
 
 
 
@@ -83,38 +79,13 @@ app.use(function (err, req, res, next) {
     });
 });
 
-/*fin users*/
-app.use(cors());
 
 
-//login
-  app.use(passport.initialize());
-  app.use(passport.session());
 var user = {
     username: '',
 
     password: ''
 }
-
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        console.log('user:' + username);
-        console.log('pass:' + password);
-        console.log(md5(password));
-
-        process.nextTick(function () {
-
-            if (username == 'melkor23' && md5(password) == '0716d19ed8dc38c84b597d87ff071dfa') {
-                user.username = username;
-                user.password = password;
-                console.log('user:' + user.username + ' password:' + user.password);
-                return done(user, true);
-            } else {
-                return done(null, false);
-            }
-        });
-    }
-));
 
 
 
@@ -124,6 +95,20 @@ app.get('/auth', function (req, res, next) {
         title: 'Melkor Rss Feed'
     });
 });
+
+var sessionController = require('./controllers/session_controller');
+
+/* GET home page. */
+app.get('/', function (req, res, next) {
+    res.render('index', {
+        title: 'Express'
+    });
+});
+
+
+app.get('/login', sessionController.new);
+app.post('/login', sessionController.create);
+app.get('/logout', sessionController.destroy);
 
 
 app.get('/loginFailure', function (req, res, next) {
@@ -142,22 +127,13 @@ app.get('/logged', function (req, res, next) {
 function isLoggedIn(req, res, next) {
 
     // if user is authenticated in the session, carry on
-    console.log('autheticate?'+req.user.authenticated);
+    console.log('autheticate?' + req.user.authenticated);
     if (req.user.authenticated)
         return true;
     else
         return false;
 }
 
-/*
-app.post('/login',
-    passport.authenticate('local', function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    console.log('consolelog!');
-     res.render('feed', { title: 'Melkor Rss Feed' });
-  }));
-*/
 app.post('/login', function (req, res, next) {
     passport.authenticate('local', function (user, err, info) {
         if (err) {
@@ -249,7 +225,8 @@ function itemSeleccionado(str, filtros) {
 
 
 
-var Allitems='';
+var Allitems = '';
+
 function recargaFeed() {
 
     console.log('-----------------RECARGA ' + new Date() + '---------------------');
@@ -279,7 +256,7 @@ function recargaFeed() {
             parser.parseString(response.body, function (err, result) {
                 xmlObject = result;
                 //global variable
-                Allitems=result;
+                Allitems = result;
                 sacaItems(result.rss.channel[0].item);
             });
         }
@@ -393,20 +370,20 @@ app.get('/rss2/', function (req, res) {
 app.get('/rssAll/', function (req, res) {
     //console.log('cantidad items' + feedAct.item.length);
 
-var auxArray=[];
- unirest.get('http://www.divxatope.com/feeds.xml').end(function (response) {
-                    if (response.statusCode === 200) {
-//                        console.log(response.body);
-                        var parser = new xml2jsParser.Parser();
-                        var xmlObject = null;
-                        parser.parseString(response.body, function (err, result) {
-                            //console.log(result.rss.channel[0].item);
-                            auxArray=result.rss.channel[0].item;
-                            res.send(result.rss.channel[0].item)
-                        });
+    var auxArray = [];
+    unirest.get('http://www.divxatope.com/feeds.xml').end(function (response) {
+        if (response.statusCode === 200) {
+            //                        console.log(response.body);
+            var parser = new xml2jsParser.Parser();
+            var xmlObject = null;
+            parser.parseString(response.body, function (err, result) {
+                //console.log(result.rss.channel[0].item);
+                auxArray = result.rss.channel[0].item;
+                res.send(result.rss.channel[0].item)
+            });
 
-                    }
-                });
+        }
+    });
 });
 /*
 app.get('/feedall/', function (req, res) {
