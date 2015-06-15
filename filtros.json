@@ -1,68 +1,205 @@
 [
-    {
-        "containsStr": ["Silicon Valley"],
-        "ignoreStr": [],
-        "quality": "720p"
-
-    },
-    {
-        "containsStr": ["Alli Abajo"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Padre de Familia"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Juego de Tronos"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Los simpsons"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["House of Cards"],
-        "ignoreStr": [],
-        "quality": "720p"
-    },
-    {
-        "containsStr": ["Modern Family"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Marvels Agents of S.H.I.E.L.D"],
-        "ignoreStr": [],
-        "quality": "720p"
-    },
-    {
-        "containsStr": ["Mom"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Bones"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Mad Men"],
-        "ignoreStr": [],
-        "quality": ""
-    },
-    {
-        "containsStr": ["Community"],
-        "ignoreStr": [],
-        "quality": "720p"
-    },
-     {
-        "containsStr": ["Anatomia De Grey"],
-        "ignoreStr": [],
-        "quality": ""
-    }
+  {
+    "containsStr": [
+      "Silicon Valley"
+    ],
+    "ignoreStr": [],
+    "quality": "720p"
+  },
+  {
+    "containsStr": [
+      "Alli Abajo"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Padre de Familia"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Juego de Tronos"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Los simpsons"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "House of Cards"
+    ],
+    "ignoreStr": [],
+    "quality": "720p"
+  },
+  {
+    "containsStr": [
+      "Modern Family"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Marvels Agents of S.H.I.E.L.D"
+    ],
+    "ignoreStr": [],
+    "quality": "720p"
+  },
+  {
+    "containsStr": [
+      "Mom"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Bones"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Mad Men"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Community"
+    ],
+    "ignoreStr": [],
+    "quality": "720p"
+  },
+  {
+    "containsStr": [
+      "Anatomia De Grey"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "dfdafdsfdsf"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "dfdafdsfdsf"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "dfdafdsfdsf"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "dfdafdsfdsf"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "dfdafdsfdsf"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "The Fruit of Grisaia – Grisaia no Kajitsu"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Orange is the New Black - Temporada 3 [HDTV][Cap.302][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Sense8 - Temporada 1 [HDTV][Cap.102][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "\"Orange is the New Black - Temporada 3 [HDTV 720p][Cap.301][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "\"Orange is the New Black - Temporada 3 [HDTV][Cap.301][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "\"Orange is the New Black - Temporada 3 [HDTV][Cap.301][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "\"The Missing - Temporada 1 [HDTV 720p][Cap.101][AC3 5.1 Español Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "\"Orange is the New Black - Temporada 3 [HDTV][Cap.302][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Orange is the New Black - Temporada 3 [HDTV][Cap.302][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Orange is the New Black - Temporada 3 [HDTV][Cap.302][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  },
+  {
+    "containsStr": [
+      "Orange is the New Black - Temporada 3 [HDTV][Cap.302][V.O. Subt. Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": ""
+  }
 ]

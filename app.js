@@ -22,6 +22,22 @@ var session = require('express-session');
 var app = express();
 var port = 8000;
 
+app.use(cookieParser('Quiz 2015'));
+app.use(session({
+    secret: 'Quiz 2015',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(function (req, res, next) {
+    if (!req.path.match(/\/login|\/logout/)) {
+        req.session.redir = req.path;
+    }
+
+    res.locals.session = req.session;
+    next();
+})
+
 
 
 app.set('views', __dirname + '/views');
@@ -30,12 +46,7 @@ app.set('css', __dirname + '/public/stylesheets');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use(cookieParser('Quiz 2015'));
-app.use(session({
-    secret: 'Quiz 2015',
-    resave: true,
-    saveUninitialized: true
-}));
+
 
 
 app.use(bodyParser.urlencoded({
@@ -97,6 +108,7 @@ app.get('/auth', function (req, res, next) {
 });
 
 var sessionController = require('./controllers/session_controller');
+var showListController=require('./controllers/showsController');
 
 /* GET home page. */
 app.get('/', function (req, res, next) {
@@ -109,6 +121,9 @@ app.get('/', function (req, res, next) {
 app.get('/login', sessionController.new);
 app.post('/login', sessionController.create);
 app.get('/logout', sessionController.destroy);
+
+
+app.get('/additem',showListController.additem);
 
 
 app.get('/loginFailure', function (req, res, next) {
@@ -134,19 +149,19 @@ function isLoggedIn(req, res, next) {
         return false;
 }
 
-app.post('/login', function (req, res, next) {
-    passport.authenticate('local', function (user, err, info) {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
 
-            return res.redirect('/login');
-        }
+app.post('/AddTorrent', function (req, res, next) {
+     if (req.session.user != null) {
 
-        return res.redirect('/feed');
+      console.log('AddTorrent OK'+ req.body)   ;
+         var jsonObject = JSON.parse(req.body)
+         console.log('AddTorrent OK'+ jsonObject)   ;
+         console.log('AddTorrent OK'+ jsonObject.itemStr)   ;
+     }
+    else{
+        //error
+    }
 
-    })(req, res, next);
 });
 
 /*

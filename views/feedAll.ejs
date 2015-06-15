@@ -8,33 +8,95 @@
                 <div class="page-header">
                 </div>
                 <div class="jumbotron" ng-controller="ItemController as item">
-                    <h3 class="text-center alert alert-info">Total items:  </h3>
+                    <h3 class="text-center alert alert-info">Total items: {{item.listAll.length}}  </h3>
                     <div class="container">
                         <div class="col-md-2" ng-repeat="item in item.listAll | orderBy:'date':true">
-                            <div class="panel panel-default shadow">
-                                <img src="{{item.description[0]}}"/>
+                            <div class="panel panel-default shadow container">
+                                <input id='tituloSeleccion' type=hidden value="{{item.title[0]}}" />
+                                <img src="{{item.description[0]}}" />
+                                <div class="container">
+                                    <% if(!session.user){ %>
+                                        <%}else{%>
+                                            <button type="button" class="btn btn-primary container" data-toggle="modal" data-target=".bs-example-modal-sm">Add</button>
+                                            <%}%>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div id='SelectedModal' class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="font-size: 75px;color:blue;left: 45%;" onclick="addItem()"></span>
+                                    <input type=text id='informacion' style='width:100%' />
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <% include footer %>
                 </div>
-
-                <hr>
-
-                <% include footer %>
-            </div>
-            <!-- /container -->
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $('#about').addClass("active");
-                });
-            </script>
-            <!-- Bootstrap core JavaScript
+                <!-- /container -->
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#about').addClass("active");
+                    });
+                </script>
+                <!-- Bootstrap core JavaScript
     ================================================== -->
-            <!-- Placed at the end of the document so the pages load faster -->
-            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-            <script src="https://code.jquery.com/jquery.js"></script>
-            <!-- Latest compiled and minified JavaScript -->
-            <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+                <!-- Placed at the end of the document so the pages load faster -->
+                <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+                <script src="https://code.jquery.com/jquery.js"></script>
+                <!-- Latest compiled and minified JavaScript -->
+                <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+
+
+
+                <script>
+                    var auxStr = '';
+                    $('#SelectedModal').on('show.bs.modal', function (e) {
+
+                        var $modal = $(this),
+                            esseyId = e.relatedTarget.id;
+
+                        var actualTitle = e.relatedTarget.parentElement.parentElement.innerHTML;
+
+                        var strNombreFinal = actualTitle.substring(actualTitle.indexOf('value=\"') + "value=\"".length, actualTitle.indexOf('">'));
+
+                        //            $.ajax({
+                        //                cache: false,
+                        //                type: 'POST',
+                        //                url: 'backend.php',
+                        //                data: 'EID='+essay_id,
+                        //                success: function(data)
+                        //                {
+                        $modal.find('#informacion').val(strNombreFinal);
+                        auxStr = strNombreFinal;
+                        //                }
+                        //            });
+
+                    });
+
+                    function addItem() {
+                        alert('add item');
+                        $.get("/additem?nombre=" + $('#informacion').val(),
+                            function (data, status) {
+                                if (data == 'OK') {
+                                    alert('todo Ok!!');
+                                } else {
+                                    alert('Error');
+                                }
+
+                            });
+                    };
+                </script>
+
+
+
     </body>
 
 </html>
