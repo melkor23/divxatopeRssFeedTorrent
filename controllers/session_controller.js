@@ -1,7 +1,14 @@
 exports.new = function (req, res) {
     var errors = req.session.errors || {};
     req.session.errors = {};
-    res.render('login', { title:'login',errors: errors});
+
+    if(req.session.user!=null && req.session.user.username!=null)
+    {
+    res.render('sessions/userlogued', { title:'login',errors: errors });
+    }else
+    {
+    res.render('sessions/login', { title:'login',errors: errors});
+    }
 };
 
 exports.create = function(req, res) {

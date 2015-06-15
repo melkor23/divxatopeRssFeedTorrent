@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="showItemsapp">>
+<% include ../header %>
+
+    <body>
+        <% include ../navbar %>
+            <div class='jumbotron'>
+                <p> El usuario
+                    <%=session.user.username%> ya esta logueado</p>
+                <p><a href='/logout'>Logout</a>
+                </p>
+            </div>
+    </body>
+</html>

@@ -89,5 +89,29 @@
     ],
     "ignoreStr": [],
     "quality": ""
+  },
+  {
+    "containsStr": [
+      "Una Vacante Imprevista - Temporada 1 [HDTV 720p][Cap.103][AC3 5.1 Español Castellano]"
+    ],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+      "id": 1,
+      "username": "Edu"
+    },
+    "dateAdded": "2015-6-15 13:0:25"
+  },
+  {
+    "containsStr": [
+      "MASSIVE CHALICE [PCDVD Crack RELOADED][Castellano MULTI5]"
+    ],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+      "id": 1,
+      "username": "Edu"
+    },
+    "dateAdded": "2015-6-15 13:7:50"
   }
 ]
