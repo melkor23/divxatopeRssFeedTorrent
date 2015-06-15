@@ -53,7 +53,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">Melkor rss</a>
+
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -69,28 +70,31 @@
                             Todos
                         </a>
                 </li>
+                <li class="collapse"><a href="/login">Login</a>
+                </li>
+
             </ul>
 
 
-              <div class="collapse navbar-collapse aa" id="bs-example-navbar-collapse-1">
-            <% if(!session.user){ %>
-                <ul class="nav navbar-nav navbar-right hidden-xs">
-                    <li><a href="/login">Login</a>
-                    </li>
-                </ul>
-                <%}else{%>
+            <div class="collapse navbar-collapse aa" id="bs-example-navbar-collapse-1">
+                <% if(!session.user){ %>
                     <ul class="nav navbar-nav navbar-right hidden-xs">
-                        <li>
-                            <a href="#">
-                                <%=session.user.username%>
-                            </a>
-                        </li>
-                        <li><a href="\logout"><span class="glyphicon glyphicon-log-out"></span></a>
+                        <li><a href="/login">Login</a>
                         </li>
                     </ul>
-                    <%}%>
-                  </div>
-                        <!--
+                    <%}else{%>
+                        <ul class="nav navbar-nav navbar-right hidden-xs">
+                            <li>
+                                <a href="#">
+                                    <%=session.user.username%>
+                                </a>
+                            </li>
+                            <li><a href="\logout"><span class="glyphicon glyphicon-log-out"></span></a>
+                            </li>
+                        </ul>
+                        <%}%>
+            </div>
+            <!--
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a>
                 </li>
