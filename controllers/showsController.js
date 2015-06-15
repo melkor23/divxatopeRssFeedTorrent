@@ -11,10 +11,14 @@ exports.additem = function (req, res) {
         if (req.query != null && req.query.nombre != null) {
             var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
             console.log(filtros.length);
+            var date = new Date();
+            var strDate=date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
             filtros.push({
                 containsStr: [req.query.nombre],
                 ignoreStr: [],
-                quality: ""
+                quality: "",
+                user:req.session.user,
+                dateAdded: strDate
             });
 
 
