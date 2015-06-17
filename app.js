@@ -12,19 +12,19 @@ var http = require('http');
 var md5 = require('MD5');
 var passport = require('passport');
 
-
 //users
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 
-
 var app = express();
 var port = 8000;
 
-app.use(cookieParser('Quiz 2015'));
+app.use(cookieParser('contrasenya2015'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(session({
-    secret: 'Quiz 2015',
+    secret: 'contrasenya2015',
     resave: true,
     saveUninitialized: true
 }));
@@ -38,8 +38,6 @@ app.use(function (req, res, next) {
     next();
 })
 
-
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('css', __dirname + '/public/stylesheets');
@@ -47,22 +45,109 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-
-
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
+//imports
 var rssfeed = require('./routes/feed');
-app.get('/feed', rssfeed.rssfeed);
-
-var rssfeed = require('./routes/feed');
-app.get('/feedAll', rssfeed.rssfeedAll);
-
-//users
 var routes = require('./routes/index');
-//var users = require('./routes/users');
+var sessionController = require('./controllers/session_controller');
+var showListController = require('./controllers/showsController');
+var util = require('./controllers/util');
+
+
+app.get('/feedAll', rssfeed.rssfeedAll);
+app.get('/feed', rssfeed.rssfeed);
+app.get('/jsonview', rssfeed.rssjson);
+app.get('/auth', function (req, res, next) {
+    //res.sendfile('views/login.html');
+    res.render('login', {
+        title: 'Melkor Rss Feed'
+    });
+});
+
+
+
+/* GET home page. */
+app.get('/', function (req, res, next) {
+    res.render('index', {
+        title: 'Express'
+    });
+});
+
+
+app.get('/login', sessionController.new);
+app.post('/login', sessionController.create);
+app.get('/logout', sessionController.destroy);
+app.get('/additem', showListController.additem);
+
+app.post('/AddTorrent', function (req, res, next) {
+    if (req.session.user != null) {
+
+        console.log('AddTorrent OK' + req.body);
+        var jsonObject = JSON.parse(req.body)
+        console.log('AddTorrent OK' + jsonObject);
+        console.log('AddTorrent OK' + jsonObject.itemStr);
+    } else {
+        //error
+    }
+
+});
+
+
+app.get('/rss/', function (req, res) {
+    res.send(feedAct.xml());
+});
+
+app.get('/rss2/', function (req, res) {
+    res.send(feedAct);
+});
+
+
+app.get('/json', function (req, res) {
+
+        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
+            res.send(filtros);
+    }
+)
+app.post('/json', function (req, res) {
+    if(req.session.user != null)
+    {
+          console.log('Salvamos json filtros');
+        console.log('POST ---->\n'+ req.body);
+
+            fs.writeFile('./filtros.json', JSON.stringify(req.body), 'utf8', function(){res.sendStatus(200);})
+    }
+    else
+    {
+       res.sendStatus(401);
+    }
+
+    /*
+        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
+            res.send(filtros);*/
+    }
+)
+
+
+
+app.get('/rssAll/', function (req, res) {
+    var auxArray = [];
+    unirest.get('http://www.divxatope.com/feeds.xml').end(function (response) {
+        if (response.statusCode === 200) {
+            //                        console.log(response.body);
+            var parser = new xml2jsParser.Parser();
+            var xmlObject = null;
+            parser.parseString(response.body, function (err, result) {
+                //console.log(result.rss.channel[0].item);
+                auxArray = result.rss.channel[0].item;
+                res.send(result.rss.channel[0].item)
+            });
+
+        }
+    });
+});
 
 
 
@@ -94,75 +179,10 @@ app.use(function (err, req, res, next) {
 
 var user = {
     username: '',
-
     password: ''
 }
 
 
-
-app.get('/auth', function (req, res, next) {
-    //res.sendfile('views/login.html');
-    res.render('login', {
-        title: 'Melkor Rss Feed'
-    });
-});
-
-var sessionController = require('./controllers/session_controller');
-var showListController=require('./controllers/showsController');
-
-/* GET home page. */
-app.get('/', function (req, res, next) {
-    res.render('index', {
-        title: 'Express'
-    });
-});
-
-
-app.get('/login', sessionController.new);
-app.post('/login', sessionController.create);
-app.get('/logout', sessionController.destroy);
-
-
-app.get('/additem',showListController.additem);
-
-
-app.get('/loginFailure', function (req, res, next) {
-    res.send('Failure to authenticate');
-});
-
-app.get('/loginSuccess', function (req, res, next) {
-    res.send('Successfully authenticated');
-});
-
-app.get('/logged', function (req, res, next) {
-    res.send(isLoggedIn(req, res, next));
-
-});
-
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
-    console.log('autheticate?' + req.user.authenticated);
-    if (req.user.authenticated)
-        return true;
-    else
-        return false;
-}
-
-
-app.post('/AddTorrent', function (req, res, next) {
-     if (req.session.user != null) {
-
-      console.log('AddTorrent OK'+ req.body)   ;
-         var jsonObject = JSON.parse(req.body)
-         console.log('AddTorrent OK'+ jsonObject)   ;
-         console.log('AddTorrent OK'+ jsonObject.itemStr)   ;
-     }
-    else{
-        //error
-    }
-
-});
 
 /*
     variables
@@ -314,11 +334,7 @@ function sacaItems(items) {
 
 
                             var aux = items[a].description[0].substring(items[a].description[0].indexOf('src="'));
-                            //console.log('1substring->' + aux);
-                            //console.log('POSICION->'+aux.indexOf('"',5));
-                            //console.log(items[i-1].description[0].substring(items[i-1].description[0].indexOf('src="')+('strc=').length,aux.indexOf('"',5)+('strc=').length));
-                            //console.log("item:" + items[a]);
-                            //console.log("DEscription:" + items[a].description);
+
                             feedAct.item({
                                 title: items[a].title,
                                 description: items[a].description[0].substring(items[a].description[0].indexOf('src="') + ('strc=').length, aux.indexOf('"', 5) + ('strc=').length) /*items[i].description*/ ,
@@ -333,8 +349,6 @@ function sacaItems(items) {
                         } catch (err) {
                             console.log("No se ha podido leer el cuerpo de la pagina" + err.message);
                         }
-                        //console.log('link--->' + link);
-                        //console.log('Contador: ' + cont);
                         cont++;
                         if (items.length == cont) {}
                     }
@@ -370,51 +384,6 @@ function functiongetNOTcontainFilter(url) {
     filterParameters.contains = str.split(defaultParameters.ignore);
 }
 
-app.get('/rss/', function (req, res) {
-    //console.log('cantidad items' + feedAct.item.length);
-
-    res.send(feedAct.xml());
-});
-
-app.get('/rss2/', function (req, res) {
-    //console.log('cantidad items' + feedAct.item.length);
-    res.send(feedAct);
-});
-
-
-app.get('/rssAll/', function (req, res) {
-    //console.log('cantidad items' + feedAct.item.length);
-
-    var auxArray = [];
-    unirest.get('http://www.divxatope.com/feeds.xml').end(function (response) {
-        if (response.statusCode === 200) {
-            //                        console.log(response.body);
-            var parser = new xml2jsParser.Parser();
-            var xmlObject = null;
-            parser.parseString(response.body, function (err, result) {
-                //console.log(result.rss.channel[0].item);
-                auxArray = result.rss.channel[0].item;
-                res.send(result.rss.channel[0].item)
-            });
-
-        }
-    });
-});
-/*
-app.get('/feedall/', function (req, res) {
-    //console.log('cantidad items' + feedAct.item.length);
-    res.send(Allitems.rss.channel[0].item);
-});
-*/
-//quitamos acentos
-function removeAccents(str) {
-    return str
-        .replace(/[áàãâä]/gi, "a")
-        .replace(/[éè¨ê]/gi, "e")
-        .replace(/[íìïî]/gi, "i")
-        .replace(/[óòöôõ]/gi, "o")
-        .replace(/[úùüû]/gi, "u");
-}
 
 
 //default response
@@ -423,11 +392,7 @@ app.get('*', function (req, res) {
 });
 
 
-/*
-app.listen(port);
-console.log("SERVER UP on port:" + port);
-recargaFeed();
-*/ // catch 404 and forward to error handler
+// catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;

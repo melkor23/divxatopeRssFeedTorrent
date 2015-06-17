@@ -7,6 +7,11 @@ exports.rssfeedAll = function(req, res){
 };
 
 
+exports.rssjson = function(req, res){
+  res.render('jsonfilter', { title: 'Melkor Rss Feed' });
+};
+
+
 
 var sessionController=require('../controllers/session_controller');
 

@@ -14,18 +14,24 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse aa" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li>
+                <li id='feed'>
                     <a href="/feed">
                             Seleccion
                         </a>
                 </li>
-                <li>
+                <li id='feedAll'>
                     <a href="/feedAll">
                             Todos
                         </a>
                 </li>
+
                 <li class="collapse"><a href="/login">Login</a>
                 </li>
+
+                  <% if(session.user){ %>
+                   <li  id='jsonfilter' class="collapse"><a href="/jsonview">Json Filter</a></li>
+                <%}%>
+
 
             </ul>
 
@@ -33,12 +39,12 @@
             <div class="collapse navbar-collapse aa" id="bs-example-navbar-collapse-1">
                 <% if(!session.user){ %>
                     <ul class="nav navbar-nav navbar-right hidden-xs">
-                        <li><a href="/login">Login</a>
+                        <li id="logintab"><a href="/login">Login</a>
                         </li>
                     </ul>
                     <%}else{%>
                         <ul class="nav navbar-nav navbar-right hidden-xs">
-                            <li>
+                            <li id="logintab">
                                 <a href="#">
                                     <%=session.user.username%>
                                 </a>
