@@ -115,7 +115,7 @@ app.post('/json', function (req, res) {
     if(req.session.user != null)
     {
           console.log('Salvamos json filtros');
-        console.log('POST ---->\n'+ req.body);
+        console.log('POST ---->\n'+ JSON.stringify(req.body));
 
             fs.writeFile('./filtros.json', JSON.stringify(req.body), 'utf8', function(){res.sendStatus(200);})
     }

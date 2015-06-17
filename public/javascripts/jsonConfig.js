@@ -11,7 +11,7 @@
 
         $scope.save = function () {
 
-            $http.post('/json/', $scope.jsonfile).success(function(data){alert('ok');});
+            $http.post('/json', this.jsonfile).success(function(data){alert('ok');});
         }
     }]);
 })();
