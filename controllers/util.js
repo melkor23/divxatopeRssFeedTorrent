@@ -7,3 +7,5 @@ exports.removeAccents=function(str) {
         .replace(/[óòöôõ]/gi, "o")
         .replace(/[úùüû]/gi, "u");
 }
+
+//
