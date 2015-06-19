@@ -22,7 +22,9 @@ var port = 8000;
 
 app.use(cookieParser('contrasenya2015'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(session({
     secret: 'contrasenya2015',
     resave: true,
@@ -45,9 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+
 
 //imports
 var rssfeed = require('./routes/feed');

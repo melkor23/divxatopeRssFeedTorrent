@@ -6,7 +6,7 @@
   $scope.jsonfile='';
 
         $http.get('/json').success(function(data){
-                    $scope.jsonfile=JSON.stringify(data, null, '  ');
+                    $scope.jsonfile=data;
                 });
 
         $scope.save = function () {
