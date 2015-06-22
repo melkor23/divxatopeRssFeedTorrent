@@ -424,5 +424,5 @@ app.use(function (err, req, res, next) {
 });
 
 recargaFeed();
-setInterval(60000,recargaFeed());
+setInterval(recargaFeed(),60000);
 module.exports = app;
