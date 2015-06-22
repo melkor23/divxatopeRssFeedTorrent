@@ -104,31 +104,7 @@
   },
   {
     "containsStr": [
-      "MASSIVE CHALICE [PCDVD Crack RELOADED][Castellano MULTI5]"
-    ],
-    "ignoreStr": [],
-    "quality": "",
-    "user": {
-      "id": 1,
-      "username": "Edu"
-    },
-    "dateAdded": "2015-6-15 18:7:55"
-  },
-  {
-    "containsStr": [
-      "Cinderella [BluRay Rip][Español Latino][2015]"
-    ],
-    "ignoreStr": [],
-    "quality": "",
-    "user": {
-      "id": 1,
-      "username": "Edu"
-    },
-    "dateAdded": "2015-6-22 16:13:18"
-  },
-  {
-    "containsStr": [
-      "Perdiendo El Norte [MicroHD 1080 px][AC3 5.1-DTS-HD 5.1-Castellano Subs][ES-EN]"
+      "Perdiendo El Norte"
     ],
     "ignoreStr": [],
     "quality": "",
