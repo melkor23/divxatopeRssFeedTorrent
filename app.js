@@ -107,28 +107,25 @@ app.get('/rss2/', function (req, res) {
 
 app.get('/json', function (req, res) {
 
-        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
-            res.send(filtros);
-    }
-)
+    var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
+    res.send(filtros);
+})
 app.post('/json', function (req, res) {
-    if(req.session.user != null)
-    {
-          console.log('Salvamos json filtros');
-        console.log('POST ---->\n'+ JSON.stringify(req.body));
+    if (req.session.user != null) {
+        console.log('Salvamos json filtros');
+        console.log('POST ---->\n' + JSON.stringify(req.body));
 
-            fs.writeFile('./filtros.json', JSON.stringify(req.body), 'utf8', function(){res.sendStatus(200);})
-    }
-    else
-    {
-       res.sendStatus(401);
+        fs.writeFile('./filtros.json', JSON.stringify(req.body), 'utf8', function () {
+            res.sendStatus(200);
+        })
+    } else {
+        res.sendStatus(401);
     }
 
     /*
         var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
             res.send(filtros);*/
-    }
-)
+})
 
 
 
@@ -222,7 +219,6 @@ var options = {
 };
 
 
-
 function itemSeleccionado(str, filtros) {
     var ff,
         strCont,
@@ -230,15 +226,13 @@ function itemSeleccionado(str, filtros) {
         boolContains,
         boolIgnore;
 
-    //console.log(str);
     var filtroCumplido = true;
     for (var i = 0; i < filtros.length; i++) {
         boolContains = true;
         boolIgnore = true;
 
+
         for (var j = 0; j < filtros[i].containsStr.length; j++) {
-            //console.log(str[0].indexOf(filtros[i].containsStr[j]) === -1);
-            //console.log(" str:" + str + " filter:" + filtros[i].containsStr[j]);
             if (str[0].indexOf(filtros[i].containsStr[j]) >= 0 &&
                 (str[0].indexOf(filtros[i].quality) >= 0 || filtros[i].quality == '' || filtros[i].quality == null)) {
                 boolContains ? true : false;
@@ -251,7 +245,10 @@ function itemSeleccionado(str, filtros) {
         if (boolContains) {
             return true;
         } else {
+
+
             filtroCumplido = false;
+
         }
     }
     return filtroCumplido;
@@ -263,7 +260,6 @@ function itemSeleccionado(str, filtros) {
 var Allitems = '';
 
 function recargaFeed() {
-
     console.log('-----------------RECARGA ' + new Date() + '---------------------');
     var iniTime = new Date();
 
@@ -332,14 +328,27 @@ function sacaItems(items) {
                                 posFin = response.body.indexOf('"', response.body.indexOf(urlDownloadIni)),
                                 link = response.body.substr(posIni, posFin - posIni).replace(urlDownloadIni, urlDownloadFin);
 
-
                             var aux = items[a].description[0].substring(items[a].description[0].indexOf('src="'));
+
+                            //console.log('title->' + items[a].title);
+                            //console.log('description->' + items[a].description[0].substring(items[a].description[0].indexOf('src="') + ('strc=').length, aux.indexOf('"', 5) + ('strc=').length));
+                            //console.log('link->' + link);
+                            //console.log('guid->'+items[a].title[0].match(/\[Cap*\.[0-9]*\]/));
+                            //console.log('guid->'+!items[a].title[0].match(/\[Cap*\.[0-9]*\]/)?'true':'false');
+
+                            var strGuid = '';
+                            try {
+                                strGuid = items[a].title[0].match(/\[Cap*\.[0-9]*\]/)[0];
+                            } catch (Exception) {
+                                strGuid = util.shortName(items[a].title[0]);
+                            }
+
 
                             feedAct.item({
                                 title: items[a].title,
-                                description: items[a].description[0].substring(items[a].description[0].indexOf('src="') + ('strc=').length, aux.indexOf('"', 5) + ('strc=').length) /*items[i].description*/ ,
+                                description: items[a].description[0].substring(items[a].description[0].indexOf('src="') + ('strc=').length, aux.indexOf('"', 5) + ('strc=').length),
                                 url: link, // link to the item
-                                guid: items[a].title[0].match(/\[Cap*\.[0-9]*\]/)[0], // optional - defaults to url
+                                guid: strGuid, // optional - defaults to url
                                 //categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
                                 author: 'Eduardo Alvir', // optional - defaults to feed author property
                                 date: new Date(items[a].pubDate[0]) //'May 25, 2012', // any format that js Date can parse.
@@ -424,5 +433,10 @@ app.use(function (err, req, res, next) {
 });
 
 recargaFeed();
+setInterval(function () {
+    console.log('---------------------------------------');
+    recargaFeed();
+}, 60 * 1000);
+
 
 module.exports = app;

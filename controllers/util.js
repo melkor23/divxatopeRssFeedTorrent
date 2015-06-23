@@ -9,3 +9,7 @@ exports.removeAccents=function(str) {
 }
 
 //
+exports.shortName=function(str)
+{
+return str.substring(0, 10);
+}
