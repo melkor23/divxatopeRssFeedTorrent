@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="searchModule">
+
+<% include header %>
+
+    <body>
+
+        <% include navbar %>
+            <div>
+                <div class="page-header">
+                </div>
+                <div class="jumbotron" ng-controller="searchController as searchitem">
+                    <h3 class="text-center alert alert-info">Total items: </h3>
+                    <div ng-controller="searchController">
+                        <form ng-show="!busquedaActiva">
+                            <input ng-model="searchWord">
+                            <button ng-click=searchClick()>Buscar!</button>
+                        </form>
+
+
+                        <div ng-show="busquedaActiva">
+                            <div class="load-bar">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+
+                            </div>
+                        </div>
+
+                        <div ng-bind-html="SkipValidation()"></div>
+
+
+                    </div>
+                </div>
+
+                <!-- Bootstrap core JavaScript
+    ================================================== -->
+                <!-- Placed at the end of the document so the pages load faster -->
+                <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+                <script src="https://code.jquery.com/jquery.js"></script>
+                <!-- Latest compiled and minified JavaScript -->
+                <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+                <link rel="stylesheet" href="/stylesheets/lodingBar.css">
+
+
+
+    </body>
+
+
+</html>

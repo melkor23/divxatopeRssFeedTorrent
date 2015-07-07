@@ -11,6 +11,9 @@ exports.rssjson = function(req, res){
   res.render('jsonfilter', { title: 'Melkor Rss Feed' });
 };
 
+exports.search = function(req, res){
+  res.render('search', { title: 'Melkor Rss Feed' });
+};
 
 
 var sessionController=require('../controllers/session_controller');

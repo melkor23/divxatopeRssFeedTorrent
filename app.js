@@ -38,8 +38,11 @@ app.use(function (req, res, next) {
 
     res.locals.session = req.session;
     next();
-})
+});
 
+
+
+app.set
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('css', __dirname + '/public/stylesheets');
@@ -57,6 +60,7 @@ var showListController = require('./controllers/showsController');
 var util = require('./controllers/util');
 
 
+app.get('/search', rssfeed.search);
 app.get('/feedAll', rssfeed.rssfeedAll);
 app.get('/feed', rssfeed.rssfeed);
 app.get('/jsonview', rssfeed.rssjson);
@@ -94,6 +98,70 @@ app.post('/AddTorrent', function (req, res, next) {
     }
 
 });
+//add torrent seacrh
+app.get('/AddTorrent', function (req, res, next) {
+    //if (req.session.user != null) {
+
+    //miramos si es uno normal o un o de una busqueda
+    var urlParameter = req.query['url'];
+    console.log('url-->' + urlParameter);
+    if (urlParameter != null) {
+
+
+
+        var i,
+            cont = 0;
+
+        var Promise = require('es6-promise').Promise,
+            state = {};
+
+        var auxI = i;
+        new Promise(function (resolve, reject) {
+            resolve(i);
+        }).then(function (a) {
+            state.a = a;
+            unirest.get(urlParameter).end(function (response) {
+                if (response.statusCode === 200) {
+                    try {
+                        var posIni = response.body.indexOf(urlDownloadIni),
+                            posFin = response.body.indexOf('"', response.body.indexOf(urlDownloadIni)),
+                            link = response.body.substr(posIni, posFin - posIni).replace(urlDownloadIni, urlDownloadFin);
+
+                        console.log('link--->' + link);
+
+                        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
+                        console.log(filtros[0]);
+                        filtros.push({
+                            "containsStr": [""],
+                            "ignoreStr": [],
+                            "quality": "",
+                            "user": {
+                                "id": 1,
+                                "username": req.session.user.username
+                            },
+                            "dateAdded": Date.now()
+                        });
+                        console.log(filtros);
+
+                        fs.writeFileSync('./filtros.json', JSON.stringify(filtros));
+
+                    } catch (err) {
+                        console.log("No se ha podido leer el cuerpo de la pagina" + err.message);
+                    }
+                    cont++;
+                }
+            });
+            resolve('b');
+        });
+
+    } else {
+
+        console.log('url Es nula');
+    }
+
+    //}
+});
+
 
 
 app.get('/rss/', function (req, res) {
@@ -109,7 +177,8 @@ app.get('/json', function (req, res) {
 
     var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
     res.send(filtros);
-})
+});
+
 app.post('/json', function (req, res) {
     if (req.session.user != null) {
         console.log('Salvamos json filtros');
@@ -324,6 +393,7 @@ function sacaItems(items) {
                     //console.log('B->' + items[a].link[0] + 'a->' + a);
                     if (response.statusCode === 200) {
                         try {
+
                             var posIni = response.body.indexOf(urlDownloadIni),
                                 posFin = response.body.indexOf('"', response.body.indexOf(urlDownloadIni)),
                                 link = response.body.substr(posIni, posFin - posIni).replace(urlDownloadIni, urlDownloadFin);

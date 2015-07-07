@@ -21,20 +21,25 @@ a {
 
     padding-left: 3px;
     padding-top: 3px;
-    min-width:138px;
+    min-width: 138px;
 }
 
-
- .fade {
+.fade {
     opacity: 0;
     -webkit-transition: opacity 0.35s linear;
     -moz-transition: opacity 0.35s linear;
     -o-transition: opacity 0.35s linear;
     transition: opacity 0.35s linear;
-
-
 }
+
 .fade.in {
     opacity: 1;
 }
 
+.tamanyofuente {
+    font-size: small
+}
+
+ul {
+    list-style-type: none;
+}
