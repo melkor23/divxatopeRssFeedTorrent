@@ -100,66 +100,72 @@ app.post('/AddTorrent', function (req, res, next) {
 });
 //add torrent seacrh
 app.get('/AddTorrent', function (req, res, next) {
-    //if (req.session.user != null) {
+    if (req.session.user != null) {
 
-    //miramos si es uno normal o un o de una busqueda
-    var urlParameter = req.query['url'];
-    console.log('url-->' + urlParameter);
-    if (urlParameter != null) {
+        //miramos si es uno normal o un o de una busqueda
+        var urlParameter = req.query['url'];
+        //console.log('url-->' + urlParameter);
+        if (urlParameter != null) {
 
+            var i,
+                cont = 0;
 
+            var Promise = require('es6-promise').Promise,
+                state = {};
 
-        var i,
-            cont = 0;
+            var auxI = i;
+            new Promise(function (resolve, reject) {
+                resolve(i);
+            }).then(function (a) {
+                state.a = a;
+                unirest.get(urlParameter).end(function (response) {
+                    if (response.statusCode === 200) {
+                        try {
+                            var posIni = response.body.indexOf(urlDownloadIni),
+                                posFin = response.body.indexOf('"', response.body.indexOf(urlDownloadIni)),
+                                link = response.body.substr(posIni, posFin - posIni).replace(urlDownloadIni, urlDownloadFin);
 
-        var Promise = require('es6-promise').Promise,
-            state = {};
+                            //console.log('link--->' + link);
 
-        var auxI = i;
-        new Promise(function (resolve, reject) {
-            resolve(i);
-        }).then(function (a) {
-            state.a = a;
-            unirest.get(urlParameter).end(function (response) {
-                if (response.statusCode === 200) {
-                    try {
-                        var posIni = response.body.indexOf(urlDownloadIni),
-                            posFin = response.body.indexOf('"', response.body.indexOf(urlDownloadIni)),
-                            link = response.body.substr(posIni, posFin - posIni).replace(urlDownloadIni, urlDownloadFin);
+                            var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
+                            //console.log(filtros[0]);
 
-                        console.log('link--->' + link);
+                            var date = new Date();
+                            var day = date.getDate();
+                            var monthIndex = date.getMonth();
+                            var year = date.getFullYear();
+                            var sttDate = day + '-' + monthIndex + '-' + year;
 
-                        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
-                        console.log(filtros[0]);
-                        filtros.push({
-                            "containsStr": [""],
-                            "ignoreStr": [],
-                            "quality": "",
-                            "user": {
-                                "id": 1,
-                                "username": req.session.user.username
-                            },
-                            "dateAdded": Date.now()
-                        });
-                        console.log(filtros);
+                            filtros.push({
+                                "containsStr": [link],
+                                "ignoreStr": [],
+                                "quality": "",
+                                "fixed": link,
+                                "user": {
+                                    "id": (req.session.user != null ? req.session.user.id : ''),
+                                    "username": (req.session.user != null ? req.session.user.username : '')
+                                },
+                                "dateAdded": sttDate
+                            });
+                            //console.log(filtros);
 
-                        fs.writeFileSync('./filtros.json', JSON.stringify(filtros));
+                            fs.writeFileSync('./filtros.json', JSON.stringify(filtros));
 
-                    } catch (err) {
-                        console.log("No se ha podido leer el cuerpo de la pagina" + err.message);
+                        } catch (err) {
+                            console.log("No se ha podido leer el cuerpo de la pagina" + err.message);
+                        }
+                        cont++;
                     }
-                    cont++;
-                }
+                });
+                resolve('b');
             });
-            resolve('b');
-        });
 
-    } else {
+        } else {
 
-        console.log('url Es nula');
+            console.log('url Es nula');
+        }
+
     }
-
-    //}
 });
 
 
@@ -371,9 +377,13 @@ function recargaFeed() {
 
 
 function sacaItems(items) {
-    var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8')),
-        i,
-        cont = 0;
+    try {
+        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8')),
+            i,
+            cont = 0;
+    } catch (error) {
+        console.log('Error al leer el achivo de filtros json');
+    }
 
     var Promise = require('es6-promise').Promise,
         state = {};
@@ -435,6 +445,35 @@ function sacaItems(items) {
                 resolve('b');
             });
         }
+    }
+
+    var filtroCumplido = true;
+    for (var j = 0; j < filtros.length; j++) {
+
+
+        console.log('Filtro Fijo-> ' + filtros[j]);
+        console.log('Filtro Fijo-> ' + filtros[j].fixed);
+
+        if (filtros[j].fixed != null) {
+            console.log('Filtro Fijo-> ' + filtros.fixed);
+
+
+            feedAct.item({
+                title: filtros[j].fixed,
+                description: filtros[j].fixed,
+                url: filtros[j].fixed, // link to the item
+                guid: filtros[j].fixed, // optional - defaults to url
+                //categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
+                author: 'Eduardo Alvir', // optional - defaults to feed author property
+                date: filtros[j].fixed //'May 25, 2012', // any format that js Date can parse.
+                    //lat: 33.417974, //optional latitude field for GeoRSS
+                    //long: -111.933231, //optional longitude field for GeoRSS,
+            });
+
+        } else {
+            console.log('No tiene fijo');
+        }
+
     }
 }
 
