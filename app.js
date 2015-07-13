@@ -11,7 +11,7 @@ var sequence = require('sequence');
 var http = require('http');
 var md5 = require('MD5');
 var passport = require('passport');
-var Kickass = require('node-kickass');
+
 
 //users
 var cookieParser = require('cookie-parser');
@@ -521,9 +521,9 @@ function sacaItems(items) {
 
             feedAct.item({
                 title: filtros[j].fixed,
-                description: filtros[j].fixed,
+                description: '/images/kat_logo.png',
                 url: filtros[j].fixed, // link to the item
-                guid: filtros[j].fixed, // optional - defaults to url
+                guid: filtros[j].fixe, // optional - defaults to url
                 //categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
                 author: 'Eduardo Alvir', // optional - defaults to feed author property
                 date: filtros[j].fixed //'May 25, 2012', // any format that js Date can parse.
