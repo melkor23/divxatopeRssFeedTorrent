@@ -11,7 +11,7 @@
                 </div>
                 <div class="jumbotron" ng-controller="searchController as searchitem">
                     <h3 class="text-center alert alert-info">Total items: </h3>
-                    <div ng-controller="searchController">
+                    <div ng-controller="searchController as searchTool">
                         <form ng-show="!busquedaActiva">
                             <input ng-model="searchWord">
                             <button ng-click=searchClick()>Buscar!</button>
@@ -27,20 +27,43 @@
                             </div>
                         </div>
 
-                        <div ng-bind-html="SkipValidation()"></div>
+
+                        <table cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <td>Titulo</td>
+                                    <td>Tamaño</td>
+                                    <td>Seeds</td>
+                                    <td>Leechs</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="item in searchList.list">
+                                    <td title="{{item.title | specialCharacters}}">{{item.title | specialCharacters | shortTitle}}</td>
+                                    <td>{{item.size | bytes}}</td>
+                                    <td>{{item.seeds}}</td>
+                                    <td>{{item.leechs}}</td>
+                                    <td>
+                                        <button ng-click="AddTorrent(item.title, item.torrentLink, item.link)">+</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
 
 
                     </div>
-                </div>
 
-                <!-- Bootstrap core JavaScript
+                    <!-- Bootstrap core JavaScript
     ================================================== -->
-                <!-- Placed at the end of the document so the pages load faster -->
-                <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-                <script src="https://code.jquery.com/jquery.js"></script>
-                <!-- Latest compiled and minified JavaScript -->
-                <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-                <link rel="stylesheet" href="/stylesheets/lodingBar.css">
+                    <!-- Placed at the end of the document so the pages load faster -->
+                    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+                    <script src="https://code.jquery.com/jquery.js"></script>
+                    <!-- Latest compiled and minified JavaScript -->
+                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="/stylesheets/lodingBar.css">
 
 
 

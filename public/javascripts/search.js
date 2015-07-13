@@ -4,6 +4,7 @@
     app.controller('searchController', ['$scope', '$http', '$timeout', '$sce', function ($scope, $http, $timeout, $sce) {
         $scope.searchWord = '';
         $scope.searchList = '';
+        $scope.resultCount = 0;
 
 
         $scope.busquedaActiva = false;
@@ -21,19 +22,13 @@
             $scope.busquedaActiva = true;
 
             var req = {
-                method: 'POST',
-                url: 'http://www.divxatope.com/buscar/descargas',
-                data: $.param({
-                    search: $scope.searchWord
-                }),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    data: {}
-                }
+                method: 'GET',
+                url: '/prueba?search=' + $scope.searchWord
             };
 
             $http(req).success(function (data) {
 
+                /*
                 data = data.replace('<br>', '');
                 var auxString = '<ul ' + data.substring(data.search('"peliculas-box"') + '"peliculas-box"'.length)
                 var ulElements = auxString.substring(0, auxString.search('<!-- end .peliculas-box -->'));
@@ -47,9 +42,10 @@
                 ulElements = ulElements.replace(/<a href="/g, '<a href="/AddTorrent?url=');
 
                 $scope.searchList = ulElements;
+                */
+                $scope.searchList = data;
                 $scope.busquedaActiva = false;
-
-
+                $scope.resultCount = data.total_results;
 
             }).error(function () {
 
@@ -66,14 +62,57 @@
             return $sce.trustAsHtml($scope.searchList);
         };
 
+        $scope.AddTorrent = function (titulo, link, htmlLink) {
 
 
-        $scope.$watch('searchList', function (value) {
-            actualizaLinks();
+
+
+            //recuperamos la imagen
+               var req = {
+                method: 'GET',
+                url: '/AddtorrentSearch?title=' + titulo+
+                   '&torrent='+link+
+                   '&htmlLink='+htmlLink
+            };
+
+            $http(req).success(function (data) {
         });
-    }]);
 
 
+
+
+    }}]);
+
+    app.filter('bytes', function () {
+        return function (bytes, precision) {
+            if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+            if (typeof precision === 'undefined') precision = 1;
+            var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+                number = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
+        }
+    });
+
+
+    /*
+    //
+    //Filters!!!
+    //
+    */
+
+    app.filter('shortTitle', function () {
+        return function (title, precision) {
+
+            return title.length > 20 ? title.substring(0, 40) + ' ...' : title;
+        }
+    });
+
+    app.filter('specialCharacters', function () {
+        return function (word, precision) {
+
+            return word.replace('&Ntilde;', 'Ñ').replace('&ntilde;', 'ñ');
+        }
+    });
 
 
 

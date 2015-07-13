@@ -1,1 +1,98 @@
-[{"containsStr":["Silicon Valley"],"ignoreStr":[],"quality":"720p"},{"containsStr":["Alli Abajo"],"ignoreStr":[],"quality":""},{"containsStr":["Padre de Familia"],"ignoreStr":[],"quality":""},{"containsStr":["Juego de Tronos"],"ignoreStr":[],"quality":""},{"containsStr":["Los simpsons"],"ignoreStr":[],"quality":""},{"containsStr":["House of Cards"],"ignoreStr":[],"quality":"720p"},{"containsStr":["Modern Family"],"ignoreStr":[],"quality":""},{"containsStr":["Marvels Agents of S.H.I.E.L.D"],"ignoreStr":[],"quality":"720p"},{"containsStr":["Mom"],"ignoreStr":[],"quality":""},{"containsStr":["Bones"],"ignoreStr":[],"quality":""},{"containsStr":["Mad Men"],"ignoreStr":[],"quality":""},{"containsStr":["Community"],"ignoreStr":[],"quality":"720p"},{"containsStr":["Anatomia De Grey"],"ignoreStr":[],"quality":""},{"containsStr":["Una Vacante Imprevista - Temporada 1 [HDTV 720p][Cap.103][AC3 5.1 Español Castellano]"],"ignoreStr":[],"quality":"","user":{"id":1,"username":"Edu"},"dateAdded":"2015-6-15 13:0:25"},{"containsStr":["Perdiendo El Norte"],"ignoreStr":[],"quality":"","user":{"id":1,"username":"Edu"},"dateAdded":"2015-6-22 16:13:31"},{"containsStr":["Mad Max Furia en la carretera [BluRayScreener 1080 px][MIC Extrem HQ Castellano sub]"],"ignoreStr":[],"quality":"","user":{"id":1,"username":"Edu"},"dateAdded":"2015-6-23 12:0:55"},{"containsStr":["Mad Max Furia en la carretera [BluRayScreener 1080 px][MIC Extrem HQ Castellano sub]"],"ignoreStr":[],"quality":"","user":{"id":1,"username":"Edu"},"dateAdded":"2015-6-23 12:4:29"},{"containsStr":["Mad Max Furia en la carretera"],"ignoreStr":[],"quality":"","user":{"id":1,"username":"Edu"},"dateAdded":"2015-6-23 10:10:30"},{"containsStr":["http://www.divxatope.com/torrent/marvels-daredevil----temporada-1--en-hdtv-temp-1-cap-13"],"ignoreStr":[],"quality":"","fixed":"http://www.divxatope.com/torrent/marvels-daredevil----temporada-1--en-hdtv-temp-1-cap-13","user":{"id":1,"username":"Edu"},"dateAdded":"7-6-2015"}]
+[{
+    "containsStr": ["Silicon Valley"],
+    "ignoreStr": [],
+    "quality": "720p"
+}, {
+    "containsStr": ["Alli Abajo"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Padre de Familia"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Juego de Tronos"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Los simpsons"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["House of Cards"],
+    "ignoreStr": [],
+    "quality": "720p"
+}, {
+    "containsStr": ["Modern Family"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Marvels Agents of S.H.I.E.L.D"],
+    "ignoreStr": [],
+    "quality": "720p"
+}, {
+    "containsStr": ["Mom"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Bones"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Mad Men"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Community"],
+    "ignoreStr": [],
+    "quality": "720p"
+}, {
+    "containsStr": ["Anatomia De Grey"],
+    "ignoreStr": [],
+    "quality": ""
+}, {
+    "containsStr": ["Una Vacante Imprevista - Temporada 1 [HDTV 720p][Cap.103][AC3 5.1 Español Castellano]"],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+        "id": 1,
+        "username": "Edu"
+    },
+    "dateAdded": "2015-6-15 13:0:25"
+}, {
+    "containsStr": ["Perdiendo El Norte"],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+        "id": 1,
+        "username": "Edu"
+    },
+    "dateAdded": "2015-6-22 16:13:31"
+}, {
+    "containsStr": ["Mad Max Furia en la carretera [BluRayScreener 1080 px][MIC Extrem HQ Castellano sub]"],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+        "id": 1,
+        "username": "Edu"
+    },
+    "dateAdded": "2015-6-23 12:0:55"
+}, {
+    "containsStr": ["Mad Max Furia en la carretera [BluRayScreener 1080 px][MIC Extrem HQ Castellano sub]"],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+        "id": 1,
+        "username": "Edu"
+    },
+    "dateAdded": "2015-6-23 12:4:29"
+}, {
+    "containsStr": ["Mad Max Furia en la carretera"],
+    "ignoreStr": [],
+    "quality": "",
+    "user": {
+        "id": 1,
+        "username": "Edu"
+    },
+    "dateAdded": "2015-6-23 10:10:30"
+}]

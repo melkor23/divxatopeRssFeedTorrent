@@ -11,10 +11,15 @@ var sequence = require('sequence');
 var http = require('http');
 var md5 = require('MD5');
 var passport = require('passport');
+var Kickass = require('node-kickass');
 
 //users
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+
+
+//kickass api
+var kickass = require('kickass-so');
 
 
 var app = express();
@@ -98,6 +103,62 @@ app.post('/AddTorrent', function (req, res, next) {
     }
 
 });
+
+//
+app.get('/prueba', function (req, res, next) {
+
+    var searchWord = req.query['search'];
+
+    var searchResult = '';
+
+    kickass(searchWord, function (err, results) {
+
+        searchResult = results;
+        res.send(
+            JSON.stringify(results, null, 4));
+    });
+
+});
+
+app.get('/AddtorrentSearch',
+    function (req, res ) {
+
+        var title = req.query['title'];
+        var urlTorrent = req.query['torrent'];
+    var htmlLink = req.query['htmlLink'];
+
+console.log('Titulo-> ' + title);
+            console.log('Link-> ' + urlTorrent);
+            console.log('HTML link.>'+htmlLink);
+
+        var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
+        //console.log(filtros[0]);
+
+        var date = new Date();
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        var sttDate = day + '-' + monthIndex + '-' + year;
+
+        filtros.push({
+            "containsStr": [title],
+            "ignoreStr": [],
+            "quality": "",
+            "fixed": urlTorrent,
+            "user": {
+                "id": (req.session.user != null ? req.session.user.id : ''),
+                "username": (req.session.user != null ? req.session.user.username : '')
+            },
+            "dateAdded": sttDate
+        });
+        //console.log(filtros);
+
+        fs.writeFileSync('./filtros.json', JSON.stringify(filtros));
+
+    });
+
+
+
 //add torrent seacrh
 app.get('/AddTorrent', function (req, res, next) {
     if (req.session.user != null) {
