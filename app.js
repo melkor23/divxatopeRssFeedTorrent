@@ -54,9 +54,6 @@ app.set('css', __dirname + '/public/stylesheets');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-
-
 //imports
 var rssfeed = require('./routes/feed');
 var routes = require('./routes/index');
@@ -67,10 +64,11 @@ var util = require('./controllers/util');
 
 app.get('/search', rssfeed.search);
 app.get('/feedAll', rssfeed.rssfeedAll);
+app.get('/countdown', rssfeed.countdown);
+
 app.get('/feed', rssfeed.rssfeed);
 app.get('/jsonview', rssfeed.rssjson);
 app.get('/auth', function (req, res, next) {
-    //res.sendfile('views/login.html');
     res.render('login', {
         title: 'Melkor Rss Feed'
     });
@@ -81,11 +79,11 @@ app.get('/auth', function (req, res, next) {
 /* GET home page. */
 app.get('/', function (req, res, next) {
     res.render('index', {
-        title: 'Express'
+        title: 'Melkor Rss feed'
     });
 });
 
-
+//login
 app.get('/login', sessionController.new);
 app.post('/login', sessionController.create);
 app.get('/logout', sessionController.destroy);
@@ -104,35 +102,29 @@ app.post('/AddTorrent', function (req, res, next) {
 
 });
 
-//
+//Busqueda en KAT
 app.get('/prueba', function (req, res, next) {
 
     var searchWord = req.query['search'];
-
+    var pageWord = req.query['page'];
     var searchResult = '';
-
     kickass(searchWord, function (err, results) {
-
         searchResult = results;
         res.send(
             JSON.stringify(results, null, 4));
     });
-
 });
 
 app.get('/AddtorrentSearch',
-    function (req, res ) {
-
+    function (req, res) {
         var title = req.query['title'];
         var urlTorrent = req.query['torrent'];
-    var htmlLink = req.query['htmlLink'];
+        var htmlLink = req.query['htmlLink'];
 
-console.log('Titulo-> ' + title);
-            console.log('Link-> ' + urlTorrent);
-            console.log('HTML link.>'+htmlLink);
+        //debug
+        console.log('Titulo-> ' + title + '\n Link-> ' + urlTorrent +' \nHTML link.>' + htmlLink);
 
         var filtros = JSON.parse(fs.readFileSync('./filtros.json', 'utf8'));
-        //console.log(filtros[0]);
 
         var date = new Date();
         var day = date.getDate();
@@ -151,15 +143,13 @@ console.log('Titulo-> ' + title);
             },
             "dateAdded": sttDate
         });
-        //console.log(filtros);
 
         fs.writeFileSync('./filtros.json', JSON.stringify(filtros));
-
     });
 
 
 
-//add torrent seacrh
+//add torrent (desde el boton del donde se muestran todos los del rss)
 app.get('/AddTorrent', function (req, res, next) {
     if (req.session.user != null) {
 
@@ -512,18 +502,18 @@ function sacaItems(items) {
     for (var j = 0; j < filtros.length; j++) {
 
 
-        console.log('Filtro Fijo-> ' + filtros[j]);
-        console.log('Filtro Fijo-> ' + filtros[j].fixed);
+        //console.log('Filtro Fijo-> ' + filtros[j]);
+        //console.log('Filtro Fijo-> ' + filtros[j].fixed);
 
         if (filtros[j].fixed != null) {
-            console.log('Filtro Fijo-> ' + filtros.fixed);
+            //console.log('Filtro Fijo-> ' + filtros.fixed);
 
 
             feedAct.item({
                 title: filtros[j].fixed,
                 description: '/images/kat_logo.png',
                 url: filtros[j].fixed, // link to the item
-                guid: filtros[j].fixe, // optional - defaults to url
+                guid: filtros[j].fixe5, // optional - defaults to url
                 //categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
                 author: 'Eduardo Alvir', // optional - defaults to feed author property
                 date: filtros[j].fixed //'May 25, 2012', // any format that js Date can parse.
@@ -532,7 +522,7 @@ function sacaItems(items) {
             });
 
         } else {
-            console.log('No tiene fijo');
+            //console.log('No tiene fijo');
         }
 
     }

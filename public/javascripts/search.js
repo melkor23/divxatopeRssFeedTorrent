@@ -6,7 +6,7 @@
         $scope.searchList = '';
         $scope.resultCount = 0;
 
-
+        $scope.anyadido=false;
         $scope.busquedaActiva = false;
 
         app.config(['$httpProvider', function ($httpProvider) {
@@ -64,7 +64,7 @@
 
         $scope.AddTorrent = function (titulo, link, htmlLink) {
 
-
+$scope.anyadido= true;
 
 
             //recuperamos la imagen
@@ -76,6 +76,11 @@
             };
 
             $http(req).success(function (data) {
+
+                //$timeout(function(){$scope.anyadido== false}, 3000);
+
+
+
         });
 
 

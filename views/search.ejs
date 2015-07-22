@@ -4,13 +4,16 @@
 <% include header %>
 
     <body>
-
         <% include navbar %>
             <div>
                 <div class="page-header">
                 </div>
                 <div class="jumbotron" ng-controller="searchController as searchitem">
                     <h3 class="text-center alert alert-info">Total items: </h3>
+                    <div class="alert alert-success" ng-show="anyadido">
+                        <p>Añadido correctamente!!!</p>
+                    </div>
+
                     <div ng-controller="searchController as searchTool">
                         <form ng-show="!busquedaActiva">
                             <input ng-model="searchWord">
@@ -28,7 +31,7 @@
                         </div>
 
 
-                        <table cellspacing="0">
+                        <table ng-table="">
                             <thead>
                                 <tr>
                                     <td>Titulo</td>
@@ -65,6 +68,12 @@
                     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
                     <link rel="stylesheet" href="/stylesheets/lodingBar.css">
 
+                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+                    <link rel="stylesheet" href="/stylesheets/lodingBar.css">
+
+                    <script type="text/javascript" src="/bower_components/ng-table/dist/ng-table.js"></script>
+
+                    <link rel="stylesheet" href="/bower_components/ng-table/dist/ng-table.css">
 
 
     </body>

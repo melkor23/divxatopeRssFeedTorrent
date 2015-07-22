@@ -6,6 +6,11 @@ exports.rssfeedAll = function(req, res){
   res.render('feedAll', { title: 'Melkor Rss Feed' });
 };
 
+exports.countdown = function(req, res){
+  res.render('countdown', { title: 'Cuenta' });
+};
+
+
 
 exports.rssjson = function(req, res){
   res.render('jsonfilter', { title: 'Melkor Rss Feed' });

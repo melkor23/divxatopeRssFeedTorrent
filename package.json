@@ -24,6 +24,8 @@
     "es6-promise": "^2.1.1",
     "express": "~4.12.2",
     "express-session": "^1.11.3",
+    "frisby": "^0.8.5",
+    "jasmine-node": "^1.14.5",
     "kickass-search": "0.0.8",
     "kickass-so": "^0.1.1",
     "kickass-torrent": "0.0.1",
